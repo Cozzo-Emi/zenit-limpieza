@@ -1,7 +1,7 @@
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrz0jwtU-gpFJWblZ-6i8wPGhZFgucHFct6rMvEVi45iKbQTEUKAccXAOLb9KfQmu4G7cDE-8Ob95c/pub?output=csv";
 const WHATSAPP_NUMBER = "5491123802851"; 
 
-let productos = [];
+let productos = []; // Array original completo
 let carrito = JSON.parse(localStorage.getItem('carritoZenit')) || []; 
 
 async function cargarProductos() {
@@ -14,25 +14,54 @@ async function cargarProductos() {
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function(results) {
+                // Guardamos todos los productos
                 productos = results.data.filter(p => p.Producto);
-                renderizarCatalogo();
+                // Renderizamos la lista completa inicialmente
+                renderizarCatalogo(productos);
                 actualizarCarritoUI();
             }
         });
     } catch (error) {
-        console.error("Error:", error);
-        document.getElementById('catalogo').innerHTML = "<p>Error al cargar catálogo.</p>";
+        console.error("Error cargando productos:", error);
+        document.getElementById('catalogo').innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>Error al cargar el catálogo.</p>";
     }
 }
 
-function renderizarCatalogo() {
+// --- NUEVA FUNCIÓN DE BÚSQUEDA ---
+function filtrarProductos() {
+    const termino = document.getElementById('input-busqueda').value.toLowerCase();
+    
+    // Filtramos el array original
+    const productosFiltrados = productos.filter(prod => {
+        // Obtenemos los campos y manejamos posibles nulos en el Excel
+        const nombre = (prod.Producto || "").toLowerCase();
+        // Buscamos DESCRIPCIÓN con tilde (como está en tu Sheet) o sin tilde por las dudas
+        const desc = (prod.DESCRIPCIÓN || prod.Descripcion || "").toLowerCase();
+        const cat = (prod.Categoria || "").toLowerCase();
+
+        // Retorna true si el término coincide en nombre, descripción o categoría
+        return nombre.includes(termino) || desc.includes(termino) || cat.includes(termino);
+    });
+
+    // Renderizamos solo los filtrados
+    renderizarCatalogo(productosFiltrados);
+}
+
+// Modificada para aceptar la lista a renderizar
+function renderizarCatalogo(listaDeProductos) {
     const catalogo = document.getElementById('catalogo');
     if (!catalogo) return;
     catalogo.innerHTML = "";
 
-    productos.forEach(prod => {
+    if (listaDeProductos.length === 0) {
+        catalogo.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 20px;'>No se encontraron productos que coincidan.</p>";
+        return;
+    }
+
+    listaDeProductos.forEach(prod => {
         const nombre = prod.Producto || "Sin nombre";
         const precio = prod.PrecioVenta || 0;
+        // Manejo flexible de DESCRIPCIÓN (mayúsculas y tilde)
         let desc = prod.DESCRIPCIÓN || prod.Descripcion || "";
         if (desc.length > 50) desc = desc.substring(0, 47) + "...";
         
@@ -108,7 +137,7 @@ function actualizarCarritoUI() {
                     <button onclick="modificarCantidad(${index}, -1)">-</button>
                     <span>${item.cantidad}</span>
                     <button onclick="modificarCantidad(${index}, 1)">+</button>
-                    <button onclick="eliminarDelCarrito(${index})">❌</button>
+                    <button onclick="eliminarDelCarrito(${index})" class="btn-eliminar-item">❌</button>
                 </div>
             </div>
         `;
