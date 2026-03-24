@@ -33,19 +33,31 @@ async function cargarProductos() {
 
 function renderizarCatalogo() {
     const catalogo = document.getElementById('catalogo');
+    if (!catalogo) return;
     catalogo.innerHTML = "";
 
     productos.forEach(prod => {
-        // Validación básica de imagen
-        const imagenUrl = prod.Imagen || 'img/placeholder.png'; // Imagen por defecto si no hay URL
+        const nombre = prod.Producto || "Sin nombre";
+        const precio = prod.PrecioVenta || 0;
         
+        // Limitamos la descripción a 60 caracteres para mantener el minimalismo
+        let desc = prod.DESCRIPCIÓN || prod.Descripcion || "";
+        if (desc.length > 60) desc = desc.substring(0, 57) + "...";
+        
+        const img = prod.Imagen || 'https://via.placeholder.com/150?text=Zenit';
+        const id = prod.ID || "sin-id";
+
         catalogo.innerHTML += `
             <div class="card">
-                <img src="${imagenUrl}" alt="${prod.Producto}" onerror="this.src='img/placeholder.png'">
-                <h3>${prod.Producto}</h3>
-                <p class="descripcion">${prod.Descripcion}</p>
-                <p class="precio">$${prod.PrecioVenta.toLocaleString('es-AR')}</p>
-                <button onclick="agregarAlCarrito('${prod.ID}')">Agregar al Pedido</button>
+                <img src="${img}" alt="${nombre}" onerror="this.src='https://via.placeholder.com/150?text=Zenit'">
+                <div class="card-info">
+                    <h3>${nombre}</h3>
+                    <p class="descripcion">${desc}</p>
+                </div>
+                <div class="card-footer">
+                    <p class="precio">$${Number(precio).toLocaleString('es-AR')}</p>
+                    <button onclick="agregarAlCarrito('${id}')">Agregar</button>
+                </div>
             </div>
         `;
     });

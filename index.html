@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZÉNIT</title>
+    <title>ZÉNIT - Productos de Limpieza</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Productos de Limpieza</h1>
-        <p>Armá tu pedido y envialo por WhatsApp</p>
+    <header class="header-zenit">
+        <div class="logo-container">
+            <img src="img/logo-zenit.png" alt="Zénit Logo" class="main-logo">
+        </div>
+        <p class="subtitle">Catálogo de Productos de Limpieza</p>
     </header>
 
     <main id="catalogo" class="grid-container">
@@ -18,31 +25,46 @@
 
     <section id="seccion-carrito">
         <h2>Tu Pedido</h2>
-        <div id="items-carrito"></div>
+        
+        <div id="items-carrito">
+            </div>
+
         <div class="total-container">
             <strong>Total: $<span id="precio-total">0</span></strong>
         </div>
 
         <form id="form-datos">
-            <input type="text" id="nombre" placeholder="Nombre completo" required>
-            <input type="text" id="direccion" placeholder="Dirección de entrega" required>
-            <input type="tel" id="telefono" placeholder="Teléfono de contacto" required>
-            <textarea id="notas" placeholder="Notas (ej: timbre, horario)"></textarea>
-            <button type="button" onclick="abrirRevision()">Revisar Pedido</button>
+            <div class="input-group">
+                <input type="text" id="nombre" placeholder="Nombre completo" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="direccion" placeholder="Dirección de entrega" required>
+            </div>
+            <div class="input-group">
+                <input type="tel" id="telefono" placeholder="Teléfono de contacto (Ej: 1123456789)" required>
+            </div>
+            <div class="input-group">
+                <textarea id="notas" placeholder="Notas adicionales (ej: timbre, depto, horario de entrega)"></textarea>
+            </div>
+            
+            <button type="button" class="btn-primario" onclick="abrirRevision()">Revisar Pedido</button>
         </form>
     </section>
 
     <div id="modal-revision" class="modal hidden">
         <div class="modal-content">
             <h3>Confirmar Pedido</h3>
-            <div id="resumen-pedido"></div>
+            <div id="resumen-pedido">
+                </div>
             <div class="modal-buttons">
                 <button onclick="cerrarModal()" class="btn-editar">Modificar</button>
                 <button onclick="enviarWhatsApp()" class="btn-enviar">Enviar a WhatsApp 📱</button>
             </div>
         </div>
     </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="app.js"></script>
+
 </body>
 </html>
