@@ -20,42 +20,43 @@
         <p class="subtitle">Catálogo de Productos de Limpieza</p>
     </header>
 
-    <main id="catalogo" class="grid-container">
-        </main>
+    <div class="contenedor-principal">
+        <main id="catalogo" class="grid-container">
+            </main>
 
-    <section id="seccion-carrito">
-        <h2>Tu Pedido</h2>
-        
-        <div id="items-carrito">
-            </div>
-
-        <div class="total-container">
-            <strong>Total: $<span id="precio-total">0</span></strong>
-        </div>
-
-        <form id="form-datos">
-            <div class="input-group">
-                <input type="text" id="nombre" placeholder="Nombre completo" required>
-            </div>
-            <div class="input-group">
-                <input type="text" id="direccion" placeholder="Dirección de entrega" required>
-            </div>
-            <div class="input-group">
-                <input type="tel" id="telefono" placeholder="Teléfono de contacto (Ej: 1123456789)" required>
-            </div>
-            <div class="input-group">
-                <textarea id="notas" placeholder="Notas adicionales (ej: timbre, depto, horario de entrega)"></textarea>
-            </div>
+        <aside id="seccion-carrito">
+            <h2>Tu Pedido</h2>
             
-            <button type="button" class="btn-primario" onclick="abrirRevision()">Revisar Pedido</button>
-        </form>
-    </section>
+            <div id="items-carrito">
+                </div>
+
+            <div class="total-container">
+                <strong>Total: $<span id="precio-total">0</span></strong>
+            </div>
+
+            <form id="form-datos">
+                <div class="input-group">
+                    <input type="text" id="nombre" placeholder="Nombre completo" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="direccion" placeholder="Dirección de entrega" required>
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="telefono" placeholder="Teléfono de contacto" required>
+                </div>
+                <div class="input-group">
+                    <textarea id="notas" placeholder="Notas adicionales (timbre, depto, horario)"></textarea>
+                </div>
+                
+                <button type="button" class="btn-primario" onclick="abrirRevision()">Revisar Pedido</button>
+            </form>
+        </aside>
+    </div>
 
     <div id="modal-revision" class="modal hidden">
         <div class="modal-content">
             <h3>Confirmar Pedido</h3>
-            <div id="resumen-pedido">
-                </div>
+            <div id="resumen-pedido"></div>
             <div class="modal-buttons">
                 <button onclick="cerrarModal()" class="btn-editar">Modificar</button>
                 <button onclick="enviarWhatsApp()" class="btn-enviar">Enviar a WhatsApp 📱</button>
