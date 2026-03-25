@@ -6,6 +6,7 @@
     --dark-blue: #2C3E50;
     --text-main: #333333;
     --font-main: 'Poppins', sans-serif;
+    --shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,30 +19,57 @@ body {
     padding: 20px;
 }
 
-/* --- Header --- */
+/* --- Header y LOGO AGRANDADO --- */
 .header-zenit {
     text-align: center;
-    padding: 30px 0;
+    padding: 40px 0; /* Más aire arriba */
     border-bottom: 1px solid #EEE;
     margin-bottom: 30px;
 }
-.main-logo { max-width: 150px; height: auto; }
-.subtitle { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; color: #888; }
+.main-logo { 
+    max-width: 220px; /* ANTES 150px - Logo más grande */
+    height: auto; 
+}
+.subtitle { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #888; margin-top: 10px;}
+
+/* --- Barra de Búsqueda --- */
+.buscador-container {
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    padding: 0 10px;
+}
+
+#input-busqueda {
+    width: 100%;
+    padding: 15px 25px;
+    border: 1px solid #EEE;
+    border-radius: 50px; /* Redondeado moderno */
+    font-family: var(--font-main);
+    font-size: 1rem;
+    box-shadow: var(--shadow);
+    outline: none;
+    transition: all 0.3s;
+}
+
+#input-busqueda:focus {
+    border-color: var(--dark-blue);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
 /* --- Layout Principal --- */
 .contenedor-principal {
     display: flex;
-    max-width: 1200px;
+    max-width: 1300px; /* Un poco más ancho total */
     margin: 0 auto;
     gap: 30px;
     align-items: flex-start;
 }
 
-/* --- Catálogo (2 columnas fijas) --- */
+/* --- Catálogo (Se ajusta flex) --- */
 .grid-container {
-    flex: 2;
+    flex: 2; /* Catálogo toma 2 partes */
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Siempre 2 columnas */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 
@@ -60,23 +88,26 @@ body {
 .card .descripcion { font-size: 0.75rem; color: #777; margin-bottom: 10px; flex-grow: 1; }
 .card .precio { font-weight: 600; color: var(--dark-blue); margin-bottom: 15px; }
 
-/* --- Carrito Lateral (Sticky) --- */
+/* --- Carrito Lateral Sticky AGRANDADO --- */
 #seccion-carrito {
-    flex: 1;
+    flex: 1.5; /* ANTES 1 - Caja de pedido más ancha */
     position: sticky;
     top: 20px;
     background-color: var(--bg-light);
-    padding: 20px;
-    border-radius: 12px;
+    padding: 25px; /* Más padding interno */
+    border-radius: 15px;
     max-height: 90vh;
     overflow-y: auto;
     border: 1px solid #E0E0E0;
+    box-shadow: var(--shadow);
 }
+
+#seccion-carrito h2 { font-weight: 600; margin-bottom: 20px; text-align: center; }
 
 /* --- Botones --- */
 button { cursor: pointer; border: none; font-family: var(--font-main); border-radius: 6px; transition: 0.2s; }
 .card button { background: var(--black); color: white; padding: 10px; width: 100%; font-size: 0.85rem; }
-.btn-primario { background: var(--dark-blue); color: white; padding: 12px; width: 100%; margin-top: 10px; }
+.btn-primario { background: var(--dark-blue); color: white; padding: 12px; width: 100%; margin-top: 10px; font-weight: 600;}
 
 /* --- Feedback Visual: Toast --- */
 #toast-notificacion {
@@ -86,33 +117,43 @@ button { cursor: pointer; border: none; font-family: var(--font-main); border-ra
     transform: translateX(-50%);
     background: #27ae60;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     z-index: 1000;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 /* --- Mobile Responsive --- */
-@media (max-width: 850px) {
+@media (max-width: 900px) { /* Ajuste de breakpoint */
     .contenedor-principal { flex-direction: column; }
     .grid-container { width: 100%; gap: 15px; }
-    #seccion-carrito { position: relative; top: 0; width: 100%; max-height: none; }
+    #seccion-carrito { position: relative; top: 0; width: 100%; max-height: none; margin-top: 30px;}
     .card img { height: 120px; }
 }
 
-/* Estilos de los items en el carrito */
+/* Items del carrito */
 .carrito-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    font-size: 0.85rem;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
+    font-size: 0.9rem; /* Un poco más grande el texto */
+    border-bottom: 1px solid #DDD;
+    padding-bottom: 12px;
 }
-.item-controles button { padding: 2px 8px; background: #eee; margin: 0 5px; }
+.info-item small { color: #666; }
+.item-controles button { padding: 4px 10px; background: #EEE; margin: 0 3px; border-radius: 4px;}
+.item-controles button:hover { background: #DDD; }
+.btn-eliminar-item { background: none; color: #e74c3c; font-size: 1rem; margin-left: 10px;}
+
+.total-container { text-align: right; font-size: 1.2rem; margin: 20px 0; padding-top: 10px; border-top: 2px solid #EEE;}
+
+/* Inputs formulario */
+.input-group input, .input-group textarea {
+    width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #DDD; border-radius: 6px; font-family: var(--font-main);
+}
 
 .hidden { display: none !important; }
 .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000;}
-.modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; }
+.modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px; }
