@@ -1,5 +1,5 @@
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrz0jwtU-gpFJWblZ-6i8wPGhZFgucHFct6rMvEVi45iKbQTEUKAccXAOLb9KfQmu4G7cDE-8Ob95c/pub?output=csv";
-const WHATSAPP_NUMBER = "5491123802851"; 
+const WHATSAPP_NUMBER = "5491150279546"; 
 
 let productos = []; // Array original completo
 let carrito = JSON.parse(localStorage.getItem('carritoZenit')) || []; 
