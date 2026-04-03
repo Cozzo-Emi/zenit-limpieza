@@ -18,6 +18,10 @@
             <img src="img/logo-zenit.png" alt="Zénit Logo" class="main-logo">
         </div>
         <p class="subtitle">Catálogo de Productos de Limpieza</p>
+        
+        <button class="btn-primario" style="max-width: 250px; margin: 15px auto 0; display: block;" onclick="descargarPDFPrecios()">
+            📄 Descargar Lista de Precios
+        </button>
     </header>
 
     <div class="buscador-container">
@@ -26,13 +30,13 @@
 
     <div class="contenedor-principal">
         <main id="catalogo" class="grid-container">
-            </main>
+        </main>
 
         <aside id="seccion-carrito">
             <h2>Tu Pedido</h2>
             
             <div id="items-carrito">
-                </div>
+            </div>
 
             <div class="total-container">
                 <strong>Total: $<span id="precio-total">0</span></strong>
@@ -69,6 +73,10 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    
     <script src="app.js"></script>
 
 </body>

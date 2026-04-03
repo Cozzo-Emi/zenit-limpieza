@@ -27,7 +27,7 @@ async function cargarProductos() {
     }
 }
 
-// --- NUEVA FUNCIÓN DE BÚSQUEDA ---
+// --- FUNCIÓN DE BÚSQUEDA ---
 function filtrarProductos() {
     const termino = document.getElementById('input-busqueda').value.toLowerCase();
     
@@ -47,7 +47,7 @@ function filtrarProductos() {
     renderizarCatalogo(productosFiltrados);
 }
 
-// Modificada para aceptar la lista a renderizar
+// Renderizar la lista de productos
 function renderizarCatalogo(listaDeProductos) {
     const catalogo = document.getElementById('catalogo');
     if (!catalogo) return;
@@ -198,6 +198,68 @@ function enviarWhatsApp() {
     mensaje += `--------------------------\n💰 *TOTAL: $${total}*`;
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+
+// --- NUEVA FUNCIÓN: GENERAR PDF ---
+function descargarPDFPrecios() {
+    // 1. Verificamos que haya productos cargados
+    if (productos.length === 0) {
+        alert("Por favor, esperá a que carguen los productos antes de descargar el PDF.");
+        return;
+    }
+
+    // 2. Inicializamos jsPDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // 3. Estilos del encabezado del documento
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text("Catálogo de Precios - ZÉNIT", 14, 22);
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(100); // Color gris oscuro
+    
+    // Agregamos la fecha de hoy para que se sepa cuándo se generó
+    const fechaHoy = new Date().toLocaleDateString('es-AR');
+    doc.text(`Lista de precios actualizada al: ${fechaHoy}`, 14, 30);
+
+    // 4. Preparamos los datos para la tabla
+    // Filtramos para asegurarnos de no meter filas vacías del Excel
+    const datosTabla = productos
+        .filter(p => p.Producto && p.PrecioVenta)
+        .map(p => {
+            const nombre = p.Producto;
+            const desc = p.DESCRIPCIÓN || p.Descripcion || "-";
+            const precioFormateado = `$${Number(p.PrecioVenta).toLocaleString('es-AR')}`;
+            
+            // Retornamos un array con las 3 columnas por cada producto
+            return [nombre, desc, precioFormateado];
+        });
+
+    // 5. Generamos la tabla con autoTable
+    doc.autoTable({
+        startY: 35, // Empezamos a dibujar debajo del título
+        head: [['Producto', 'Presentación / Descripción', 'Precio Final']],
+        body: datosTabla,
+        theme: 'striped', // Filas cebradas (gris y blanco)
+        headStyles: { 
+            fillColor: [44, 62, 80], // Color --dark-blue de tu CSS
+            textColor: [255, 255, 255]
+        },
+        styles: { 
+            fontSize: 9, // Letra un poco más chica para que entre bien
+            cellPadding: 4
+        },
+        columnStyles: {
+            // Alineamos la columna 2 (el precio) a la derecha y en negrita
+            2: { halign: 'right', fontStyle: 'bold', cellWidth: 35 } 
+        }
+    });
+
+    // 6. Descargamos el archivo directamente en la compu/celular del usuario
+    doc.save("Lista_Precios_Zenit.pdf");
 }
 
 document.addEventListener('DOMContentLoaded', cargarProductos);
