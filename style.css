@@ -1,17 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary: #1d1d1f;      /* Apple Black */
-    --accent: #0071e3;       /* Apple Blue */
-    --bg: #f5f5f7;           /* Soft Gray */
+    --primary: #1d1d1f;      /* Negro Apple */
+    --accent: #0071e3;       /* Azul Moderno */
+    --bg: #f5f5f7;           /* Gris Seda */
     --white: #ffffff;
-    --text-sec: #86868b;     /* Gray text */
+    --text-sec: #86868b;     /* Gris de texto secundario */
     --radius: 18px;
     --shadow: 0 8px 30px rgba(0,0,0,0.04);
-    --glass: rgba(255, 255, 255, 0.7);
+    --glass: rgba(255, 255, 255, 0.75);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    -webkit-tap-highlight-color: transparent; /* Quita el destello azul en mobile */
+}
 
 body { 
     font-family: 'Inter', sans-serif; 
@@ -24,22 +29,40 @@ body {
 /* --- Header --- */
 .header-zenit {
     text-align: center;
-    padding: 60px 20px 40px;
+    padding: 60px 20px 30px;
 }
-.main-logo { max-width: 180px; margin-bottom: 15px; }
+.main-logo { max-width: 160px; margin-bottom: 15px; }
 .subtitle { 
-    font-size: 0.85rem; 
+    font-size: 0.8rem; 
     text-transform: uppercase; 
-    letter-spacing: 0.15em; 
+    letter-spacing: 0.12em; 
     color: var(--text-sec);
-    font-weight: 500;
+    font-weight: 600;
 }
 
-/* --- Buscador Premium --- */
+.btn-secundario-pdf {
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: var(--primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secundario-pdf:hover { background: rgba(0,0,0,0.05); }
+
+/* --- Buscador Sticky (Efecto Cristal) --- */
 .buscador-container {
     max-width: 500px;
     margin: 0 auto 50px;
     padding: 0 20px;
+    position: sticky;
+    top: 15px; /* Se queda fijo al scrollear */
+    z-index: 1000;
 }
 
 #input-busqueda {
@@ -47,20 +70,23 @@ body {
     padding: 16px 24px;
     border-radius: 30px;
     border: 1px solid rgba(0,0,0,0.08);
-    background: var(--white);
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     font-size: 1rem;
     outline: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow);
 }
 
 #input-busqueda:focus {
+    background: var(--white);
     transform: scale(1.02);
     border-color: var(--accent);
     box-shadow: 0 12px 40px rgba(0,0,0,0.08);
 }
 
-/* --- Layout --- */
+/* --- Layout Principal --- */
 .contenedor-principal {
     display: flex;
     max-width: 1200px;
@@ -120,24 +146,18 @@ body {
     font-size: 0.9rem;
     border: none;
     cursor: pointer;
-    transition: opacity 0.2s;
 }
 
-.btn-add:active { transform: scale(0.96); }
-
-/* --- Carrito Lateral Glassmorphism --- */
+/* --- Carrito Lateral (Sticky en Desktop) --- */
 #seccion-carrito {
     flex: 1;
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: var(--white);
     padding: 30px;
     border-radius: var(--radius);
     position: sticky;
-    top: 30px;
-    max-height: 85vh;
+    top: 100px;
+    max-height: 80vh;
     overflow-y: auto;
-    border: 1px solid rgba(255,255,255,0.4);
     box-shadow: var(--shadow);
 }
 
@@ -152,62 +172,114 @@ body {
 .item-nombre { font-weight: 500; font-size: 0.9rem; display: block; }
 .item-precio { font-size: 0.8rem; color: var(--text-sec); }
 
-.item-controles { display: flex; align-items: center; gap: 10px; }
+.item-controles { display: flex; align-items: center; gap: 8px; }
 .item-controles button {
-    width: 28px; height: 28px; border-radius: 50%; border: 1px solid #ddd;
+    width: 26px; height: 26px; border-radius: 50%; border: 1px solid #e5e5e7;
     background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-weight: bold;
 }
+
+.btn-eliminar-item { color: #ff3b30; border: none !important; font-size: 1.1rem; margin-left: 5px; }
 
 .total-container {
     margin: 25px 0;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 700;
     text-align: right;
-    border-top: 2px solid var(--primary);
+    border-top: 1px solid var(--primary);
     padding-top: 15px;
 }
 
-/* --- Formulario --- */
+/* --- Formulario de Datos --- */
 .input-group input, .input-group textarea {
     width: 100%; padding: 14px; margin-bottom: 12px;
     border: 1px solid rgba(0,0,0,0.1); border-radius: 12px;
-    font-family: inherit; font-size: 0.9rem; background: var(--white);
+    font-family: inherit; font-size: 0.95rem; outline: none;
 }
+
+.input-group input:focus { border-color: var(--accent); }
 
 .btn-primario {
     background: var(--accent);
-    color: white; padding: 16px; width: 100%; border-radius: 14px;
+    color: white; padding: 16px; width: 100%; border-radius: 16px;
     font-weight: 600; font-size: 1rem; border: none; cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
 }
 
-/* --- Toast --- */
-#toast-notificacion {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-    background: rgba(0,0,0,0.85); color: white; padding: 12px 24px;
-    border-radius: 30px; z-index: 5000; font-weight: 500;
-    animation: slideUp 0.4s ease;
+/* --- Botón Flotante (Solo Mobile) --- */
+.btn-flotante {
+    display: none; 
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: var(--accent);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 113, 227, 0.4);
+    z-index: 2000;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes slideUp {
-    from { bottom: -50px; opacity: 0; }
-    to { bottom: 30px; opacity: 1; }
+.btn-flotante:active { transform: scale(0.9); }
+
+#cantidad-flotante {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--white);
 }
 
-/* --- Modal --- */
+/* --- Modal Revision --- */
 .modal {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
 }
 .modal-content {
-    background: var(--white); padding: 40px; border-radius: 24px;
-    width: 90%; max-width: 450px; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    background: var(--white); padding: 30px; border-radius: 24px;
+    width: 100%; max-width: 450px; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
 }
+.modal-buttons { display: flex; gap: 10px; margin-top: 25px; }
+.btn-editar { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid #ddd; background: white; cursor: pointer; }
+.btn-enviar { flex: 2; padding: 12px; border-radius: 12px; border: none; background: #25d366; color: white; font-weight: 600; cursor: pointer; }
+
 .hidden { display: none !important; }
 
-/* --- Mobile --- */
+/* --- Responsive Mobile --- */
 @media (max-width: 900px) {
-    .contenedor-principal { flex-direction: column; }
-    .header-zenit { padding: 40px 20px; }
-    #seccion-carrito { position: static; max-height: none; }
+    .contenedor-principal { flex-direction: column; padding: 0 15px 120px; }
+    .grid-container { grid-template-columns: 1fr 1fr; gap: 15px; }
+    .header-zenit { padding: 40px 20px 20px; }
+    .main-logo { max-width: 130px; }
+    
+    #seccion-carrito { 
+        position: static; 
+        max-height: none; 
+        margin-top: 20px; 
+        box-shadow: none; 
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .btn-flotante { display: flex; } /* Activa el botón en mobile */
+    
+    /* El buscador ya es sticky arriba por la regla general */
+    .buscador-container { top: 10px; }
+}
+
+@media (max-width: 500px) {
+    .grid-container { grid-template-columns: 1fr; }
 }

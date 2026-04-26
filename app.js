@@ -42,7 +42,7 @@ function renderizarCatalogo(listaDeProductos) {
     catalogo.innerHTML = "";
 
     if (listaDeProductos.length === 0) {
-        catalogo.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 40px; color: #86868b;'>No encontramos lo que buscas.</p>";
+        catalogo.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 40px; color: #86868b;'>No encontramos resultados.</p>";
         return;
     }
 
@@ -101,20 +101,27 @@ function mostrarToast(mensaje) {
     document.body.appendChild(toast);
 
     setTimeout(() => {
-        toast.classList.add('hide');
-        setTimeout(() => toast.remove(), 500);
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(20px)';
+        toast.style.transition = 'all 0.4s ease';
+        setTimeout(() => toast.remove(), 400);
     }, 2500);
 }
 
 function actualizarCarritoUI() {
     const lista = document.getElementById('items-carrito');
     const totalSpan = document.getElementById('precio-total');
+    const cantidadFlotante = document.getElementById('cantidad-flotante');
+    
     lista.innerHTML = "";
     let total = 0;
+    let cantidadTotal = 0;
 
     carrito.forEach((item, index) => {
         const subtotal = item.precio * item.cantidad;
         total += subtotal;
+        cantidadTotal += item.cantidad;
+
         lista.innerHTML += `
             <div class="carrito-item">
                 <div class="info-item">
@@ -130,7 +137,9 @@ function actualizarCarritoUI() {
             </div>
         `;
     });
+
     totalSpan.innerText = total.toLocaleString('es-AR');
+    if(cantidadFlotante) cantidadFlotante.innerText = cantidadTotal;
 }
 
 function modificarCantidad(index, cambio) {
@@ -153,6 +162,11 @@ function guardarCarrito() {
     localStorage.setItem('carritoZenit', JSON.stringify(carrito));
 }
 
+function irAlCarrito() {
+    const seccionCarrito = document.getElementById('seccion-carrito');
+    seccionCarrito.scrollIntoView({ behavior: 'smooth' });
+}
+
 function abrirRevision() {
     if (carrito.length === 0) return mostrarToast("El carrito está vacío");
     const form = document.getElementById('form-datos');
@@ -164,12 +178,14 @@ function abrirRevision() {
     resumen.innerHTML = `
         <div class="resumen-lista">
             ${carrito.map(i => `
-                <div class="resumen-row">
+                <div class="resumen-row" style="display:flex; justify-content:space-between; margin-bottom:8px;">
                     <span>${i.cantidad}x ${i.nombre}</span>
                     <span>$${(i.precio * i.cantidad).toLocaleString('es-AR')}</span>
                 </div>
             `).join('')}
-            <div class="resumen-total">Total: $${total}</div>
+            <div class="resumen-total" style="border-top:1px solid #ddd; margin-top:10px; padding-top:10px; font-weight:700; text-align:right;">
+                Total: $${total}
+            </div>
         </div>
     `;
     document.getElementById('modal-revision').classList.remove('hidden');
@@ -219,7 +235,7 @@ function descargarPDFPrecios() {
         styles: { fontSize: 9 }
     });
 
-    doc.save("Zénit_Precios.pdf");
+    doc.save("Zenit_Precios.pdf");
 }
 
 document.addEventListener('DOMContentLoaded', cargarProductos);

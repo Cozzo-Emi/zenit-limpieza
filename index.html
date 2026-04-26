@@ -18,7 +18,7 @@
             <img src="img/logo-zenit.png" alt="Zénit Logo" class="main-logo">
         </div>
         <p class="subtitle">Catálogo de Productos de Limpieza</p>
-        <button class="btn-primario" style="max-width: 250px; margin: 15px auto 0; display: block;" onclick="descargarPDFPrecios()">
+        <button class="btn-secundario-pdf" onclick="descargarPDFPrecios()">
             📄 Descargar Lista de Precios
         </button>
     </header>
@@ -27,23 +27,22 @@
         <input type="text" id="input-busqueda" placeholder="Buscar producto, marca o categoría..." onkeyup="filtrarProductos()">
     </div>
 
-    <div class="contenedor-principal">
-        <main id="catalogo" class="grid-container">
-        </main>
+    <main class="contenedor-principal">
+        <section id="catalogo" class="grid-container">
+            </section>
 
         <aside id="seccion-carrito">
             <h2>Tu Pedido</h2>
-            
             <div id="items-carrito">
-            </div>
-
+                </div>
+            
             <div class="total-container">
-                <strong>Total: $<span id="precio-total">0</span></strong>
+                Total: $<span id="precio-total">0</span>
             </div>
 
             <form id="form-datos">
                 <div class="input-group">
-                    <input type="text" id="nombre" placeholder="Nombre completo" required>
+                    <input type="text" id="nombre" placeholder="Tu nombre" required>
                 </div>
                 <div class="input-group">
                     <input type="text" id="direccion" placeholder="Dirección de entrega" required>
@@ -55,9 +54,14 @@
                     <textarea id="notas" placeholder="Notas adicionales (timbre, depto, horario)"></textarea>
                 </div>
                 
-                <button type="button" class="btn-primario" onclick="abrirRevision()">Revisar Pedido</button>
+                <button type="button" class="btn-primario" onclick="abrirRevision()">Finalizar Pedido</button>
             </form>
         </aside>
+    </main>
+
+    <div id="btn-flotante-carrito" class="btn-flotante" onclick="irAlCarrito()">
+        <span class="icon">🛒</span>
+        <span id="cantidad-flotante">0</span>
     </div>
 
     <div id="modal-revision" class="modal hidden">
@@ -72,11 +76,9 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     
     <script src="app.js"></script>
-
 </body>
 </html>
