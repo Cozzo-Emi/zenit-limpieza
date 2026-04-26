@@ -86,7 +86,8 @@ function agregarAlCarrito(id) {
         });
     }
 
-    mostrarToast(`Añadido: ${prod.Producto}`);
+    // Feedback visual premium
+    mostrarToast(`Añadiste: ${prod.Producto} 🛒`);
     guardarCarrito();
     actualizarCarritoUI();
 }
@@ -100,11 +101,12 @@ function mostrarToast(mensaje) {
     toast.innerText = mensaje;
     document.body.appendChild(toast);
 
+    // Animación de salida controlada por clase CSS para mayor suavidad
     setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(-50%) translateY(20px)';
-        toast.style.transition = 'all 0.4s ease';
-        setTimeout(() => toast.remove(), 400);
+        toast.classList.add('hide-toast');
+        setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+        }, 400);
     }, 2500);
 }
 
@@ -139,7 +141,11 @@ function actualizarCarritoUI() {
     });
 
     totalSpan.innerText = total.toLocaleString('es-AR');
-    if(cantidadFlotante) cantidadFlotante.innerText = cantidadTotal;
+    if(cantidadFlotante) {
+        cantidadFlotante.innerText = cantidadTotal;
+        // Ocultar el círculo si está vacío
+        cantidadFlotante.style.display = cantidadTotal > 0 ? "flex" : "none";
+    }
 }
 
 function modificarCantidad(index, cambio) {
@@ -164,11 +170,13 @@ function guardarCarrito() {
 
 function irAlCarrito() {
     const seccionCarrito = document.getElementById('seccion-carrito');
-    seccionCarrito.scrollIntoView({ behavior: 'smooth' });
+    if (seccionCarrito) {
+        seccionCarrito.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 function abrirRevision() {
-    if (carrito.length === 0) return mostrarToast("El carrito está vacío");
+    if (carrito.length === 0) return mostrarToast("El carrito está vacío ⚠️");
     const form = document.getElementById('form-datos');
     if (!form.checkValidity()) { form.reportValidity(); return; }
 
@@ -178,12 +186,12 @@ function abrirRevision() {
     resumen.innerHTML = `
         <div class="resumen-lista">
             ${carrito.map(i => `
-                <div class="resumen-row" style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                    <span>${i.cantidad}x ${i.nombre}</span>
+                <div class="resumen-row" style="display:flex; justify-content:space-between; margin-bottom:8px; font-size: 0.95rem;">
+                    <span><strong>${i.cantidad}x</strong> ${i.nombre}</span>
                     <span>$${(i.precio * i.cantidad).toLocaleString('es-AR')}</span>
                 </div>
             `).join('')}
-            <div class="resumen-total" style="border-top:1px solid #ddd; margin-top:10px; padding-top:10px; font-weight:700; text-align:right;">
+            <div class="resumen-total" style="border-top:1px solid #eee; margin-top:15px; padding-top:15px; font-weight:700; text-align:right; font-size: 1.1rem;">
                 Total: $${total}
             </div>
         </div>
@@ -200,11 +208,18 @@ function enviarWhatsApp() {
     const notas = document.getElementById('notas').value;
     const total = document.getElementById('precio-total').innerText;
 
-    let mensaje = `🛒 *PEDIDO ZÉNIT*\n\n👤 *Cliente:* ${nombre}\n📞 *Tel:* ${telefono}\n📍 *Entrega:* ${direccion}\n`;
+    let mensaje = `🛒 *NUEVO PEDIDO ZÉNIT*\n\n`;
+    mensaje += `👤 *Cliente:* ${nombre}\n`;
+    mensaje += `📞 *Tel:* ${telefono}\n`;
+    mensaje += `📍 *Dirección:* ${direccion}\n`;
     if (notas) mensaje += `📝 *Notas:* ${notas}\n`;
-    mensaje += `\n*PRODUCTOS:*\n`;
-    carrito.forEach(i => { mensaje += `• ${i.cantidad}x ${i.nombre} ($${(i.precio * i.cantidad).toLocaleString('es-AR')})\n`; });
-    mensaje += `\n💰 *TOTAL: $${total}*`;
+    
+    mensaje += `\n*DETALLE DEL PEDIDO:*\n`;
+    carrito.forEach(i => { 
+        mensaje += `• ${i.cantidad}x ${i.nombre} ($${(i.precio * i.cantidad).toLocaleString('es-AR')})\n`; 
+    });
+    
+    mensaje += `\n💰 *TOTAL FINAL: $${total}*`;
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
