@@ -1,117 +1,95 @@
-/* =========================================
-   ZÉNIT - MINIMALISTA HIGH-END
-   ========================================= */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
+<<<<<<< HEAD
+/* --- Variables y Reset (Mantenemos los mismos básicos) --- */
 :root {
-    /* Colors */
-    --bg-main: #FAFAFC;
-    --bg-card: #FFFFFF;
-    --text-primary: #1D1D1F; /* Apple dark gray */
-    --text-secondary: #86868B;
-    --accent-blue: #0071E3; /* Apple classic blue */
-    --border-color: #EAEAEA;
+    --black: #000000;
+    --white: #FFFFFF;
+    --bg-light: #F8F9FA;
+    --dark-blue: #2C3E50; /* Acento Zénit */
+    --text-main: #333333;
+    --font-main: 'Poppins', sans-serif;
     
-    /* Shadows */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.06);
-    --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.08);
-    
-    /* Border Radius */
-    --radius-card: 24px;
-    --radius-btn: 12px;
-    --radius-input: 16px;
-    
-    /* Font */
-    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* NUEVAS VARIABLES DE ESTILO */
+    --borde-suave: #E0E0E0;
+    --sombra-principal: 0 4px 15px rgba(0,0,0,0.06); /* Sombra suave de relieve */
+    --sombra-foco: 0 6px 20px rgba(44, 62, 80, 0.12); /* Sombra más fuerte al hacer clic */
 }
 
-* { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-    -webkit-font-smoothing: antialiased;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body { 
     font-family: var(--font-main); 
-    background-color: var(--bg-main); 
-    color: var(--text-primary); 
-    line-height: 1.5;
-    padding: 20px 40px;
+    background-color: var(--white); 
+    color: var(--text-main); 
+    line-height: 1.6;
+    padding: 20px;
 }
 
-/* --- Header y Logo --- */
+/* --- Header y Logo (Agrandado) --- */
 .header-zenit {
     text-align: center;
-    padding: 40px 0 30px 0;
-    margin-bottom: 20px;
+    padding: 40px 0 20px 0; /* Ajuste de aire */
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 30px;
 }
 .main-logo { 
-    max-width: 200px; 
+    max-width: 220px; 
     height: auto; 
-    margin-bottom: 10px;
 }
-.subtitle { 
-    font-weight: 500; 
-    text-transform: uppercase; 
-    letter-spacing: 3px; 
-    font-size: 0.75rem; 
-    color: var(--text-secondary); 
-}
+.subtitle { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #888; margin-top: 10px;}
 
-/* --- Botón Primario (Global) --- */
-.btn-primario { 
-    background: var(--accent-blue); 
-    color: white; 
-    padding: 14px 24px; 
-    border-radius: var(--radius-btn);
-    font-weight: 600;
-    font-size: 0.95rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 14px rgba(0, 113, 227, 0.3);
-}
-.btn-primario:hover {
-    background: #005BB5;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 113, 227, 0.4);
-}
-
-/* --- Buscador --- */
+/* =========================================
+   --- NUEVO BUSCADOR CON "ONDA" ---
+   ========================================= */
 .buscador-container {
-    max-width: 600px; 
-    margin: 0 auto 50px auto; 
+    max-width: 550px; /* Un poco más compacto */
+    margin: 0 auto 50px auto; /* Centrado horizontal y más aire abajo */
+    padding: 0 15px;
+    position: relative; /* Para el icono si agregamos luego */
 }
+
 #input-busqueda {
     width: 100%;
-    padding: 18px 25px; 
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color); 
-    border-radius: var(--radius-input); 
-    box-shadow: var(--shadow-sm); 
+    padding: 16px 25px 16px 50px; /* Aire para icono (espacio a la izq) */
+    
+    /* DISEÑO VISUAL */
+    background-color: var(--white);
+    border: 1px solid var(--borde-suave); /* Borde muy sutil */
+    border-radius: 50px; /* Redondeado total "pill" */
+    
+    /* EFECTO DE PROFUNDIDAD */
+    box-shadow: var(--sombra-principal); /* Sombra suave inicial */
+    
+    /* TIPOGRAFÍA Y TEXTO */
     font-family: var(--font-main);
-    font-size: 1.05rem;
-    color: var(--text-primary);
-    transition: all 0.3s ease; 
-    outline: none; 
+    font-size: 1rem;
+    color: var(--text-main);
+    letter-spacing: 0.5px;
+    
+    /* ANIMACIÓN SUAVE */
+    transition: all 0.3s ease; /* Suaviza todos los cambios */
+    outline: none; /* Quita el borde feo por defecto del navegador */
 }
+
+/* EFECTOS AL HACER FOCO (CLIC) */
 #input-busqueda:focus {
-    border-color: var(--accent-blue); 
-    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15); 
+    border-color: var(--dark-blue); /* El borde cambia al color acento */
+    background-color: var(--white);
+    box-shadow: var(--sombra-foco); /* La sombra se intensifica (relieve) */
+    transform: translateY(-1px); /* Pequeño levante visual */
 }
+
+/* Estilo del Placeholder (texto de ayuda) */
 #input-busqueda::placeholder {
-    color: var(--text-secondary);
-    font-weight: 400;
+    color: #A0A0A0;
+    font-weight: 300;
 }
 
 /* --- Layout Principal --- */
 .contenedor-principal {
     display: flex;
-    max-width: 1400px;
+    max-width: 1300px;
     margin: 0 auto;
-    gap: 40px;
+    gap: 30px;
     align-items: flex-start;
 }
 
@@ -119,164 +97,153 @@ body {
 .grid-container {
     flex: 2;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
 .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-card);
-    padding: 24px;
+    background: var(--white);
+    border: 1px solid #EEE;
+    border-radius: 12px;
+    padding: 15px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    box-shadow: var(--shadow-md);
-}
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-hover);
 }
 
-.card img { 
-    width: 100%; 
-    height: 160px; 
-    object-fit: contain; 
-    margin-bottom: 20px; 
-    mix-blend-mode: multiply;
-}
-.card h3 { 
-    font-size: 1.05rem; 
-    font-weight: 600;
-    margin-bottom: 8px; 
-    color: var(--text-primary); 
-    line-height: 1.3;
-}
-.card .descripcion { 
-    font-size: 0.85rem; 
-    color: var(--text-secondary); 
-    margin-bottom: 15px; 
-    flex-grow: 1; 
-}
-.card .precio { 
-    font-weight: 700; 
-    font-size: 1.25rem;
-    color: var(--text-primary); 
-    margin-bottom: 20px; 
-}
+.card img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 15px; }
+.card h3 { font-size: 0.95rem; margin-bottom: 5px; color: var(--black); }
+.card .descripcion { font-size: 0.75rem; color: #777; margin-bottom: 10px; flex-grow: 1; }
+.card .precio { font-weight: 600; color: var(--dark-blue); margin-bottom: 15px; }
 
-.card button { 
-    background: var(--bg-main); 
-    color: var(--accent-blue); 
-    padding: 12px; 
-    width: 100%; 
-    font-size: 0.95rem; 
-    font-weight: 600;
-    border: 1px solid transparent;
-    border-radius: var(--radius-btn);
-    transition: 0.3s;
-    cursor: pointer;
-}
-.card button:hover {
-    background: var(--accent-blue);
-    color: white;
-}
-
-/* --- Carrito Lateral Sticky --- */
+/* --- Carrito Lateral Sticky (Agrandado) --- */
 #seccion-carrito {
-    flex: 1.2;
+    flex: 1.5;
     position: sticky;
-    top: 40px;
-    background-color: var(--bg-card);
-    padding: 30px;
-    border-radius: var(--radius-card);
-    max-height: 85vh;
+    top: 20px;
+    background-color: var(--bg-light);
+    padding: 25px;
+    border-radius: 15px;
+    max-height: 90vh;
     overflow-y: auto;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-md);
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
-#seccion-carrito h2 { 
-    font-weight: 600; 
-    font-size: 1.4rem;
-    margin-bottom: 25px; 
-    color: var(--text-primary);
+#seccion-carrito h2 { font-weight: 600; margin-bottom: 20px; text-align: center; }
+
+/* --- Botones --- */
+button { cursor: pointer; border: none; font-family: var(--font-main); border-radius: 6px; transition: 0.2s; }
+.card button { background: var(--black); color: white; padding: 10px; width: 100%; font-size: 0.85rem; }
+.btn-primario { background: var(--dark-blue); color: white; padding: 12px; width: 100%; margin-top: 10px; font-weight: 600;}
+
+/* --- Feedback Visual: Toast --- */
+#toast-notificacion {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #27ae60;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    z-index: 3000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 900px) {
+    .contenedor-principal { flex-direction: column; }
+    .grid-container { width: 100%; gap: 15px; }
+    #seccion-carrito { position: relative; top: 0; width: 100%; max-height: none; margin-top: 30px;}
+    .card img { height: 120px; }
 }
 
 /* Items del carrito */
 .carrito-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
-    gap: 15px;
-}
-.carrito-img-min {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-main);
-    padding: 2px;
-}
-.info-item {
-    flex-grow: 1;
-}
-.info-item strong {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--text-primary);
-}
-.info-item small {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-}
-.item-controles {
-    display: flex;
-    align-items: center;
-    background: var(--bg-main);
-    border-radius: 20px;
-    padding: 4px;
-}
-.item-controles button { 
-    padding: 4px 10px; 
-    background: transparent; 
-    border: none;
-    font-weight: 500;
-    color: var(--text-primary);
-    cursor: pointer;
-    font-size: 1rem;
-}
-.item-controles span {
-    font-weight: 600;
     font-size: 0.9rem;
-    min-width: 20px;
-    text-align: center;
+    border-bottom: 1px solid #DDD;
+    padding-bottom: 12px;
 }
-.btn-eliminar-item { 
-    color: #FF3B30 !important; 
-    font-size: 1rem !important; 
-    margin-left: 10px;
-}
+.item-controles button { padding: 4px 10px; background: #EEE; margin: 0 3px; border-radius: 4px;}
+.btn-eliminar-item { background: none; color: #e74c3c; font-size: 1rem; margin-left: 10px;}
 
-.total-container { 
-    text-align: right; 
-    font-size: 1.4rem; 
-    font-weight: 700;
-    margin: 25px 0; 
-    padding-top: 15px; 
-}
+.total-container { text-align: right; font-size: 1.2rem; margin: 20px 0; padding-top: 10px; border-top: 2px solid #EEE;}
 
 /* Inputs formulario */
 .input-group input, .input-group textarea {
-    width: 100%; 
-    padding: 14px 16px; 
-    margin-bottom: 12px; 
-    border: 1px solid var(--border-color); 
-    border-radius: var(--radius-btn); 
+    width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #DDD; border-radius: 6px; font-family: var(--font-main);
+}
+
+.hidden { display: none !important; }
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000;}
+=======
+/* --- Variables y Reset (Mantenemos los mismos básicos) --- */
+:root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --bg-light: #F8F9FA;
+    --dark-blue: #2C3E50; /* Acento Zénit */
+    --text-main: #333333;
+    --font-main: 'Poppins', sans-serif;
+    
+    /* NUEVAS VARIABLES DE ESTILO */
+    --borde-suave: #E0E0E0;
+    --sombra-principal: 0 4px 15px rgba(0,0,0,0.06); /* Sombra suave de relieve */
+    --sombra-foco: 0 6px 20px rgba(44, 62, 80, 0.12); /* Sombra más fuerte al hacer clic */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { 
+    font-family: var(--font-main); 
+    background-color: var(--white); 
+    color: var(--text-main); 
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* --- Header y Logo (Agrandado) --- */
+.header-zenit {
+    text-align: center;
+    padding: 40px 0 20px 0; /* Ajuste de aire */
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 30px;
+}
+.main-logo { 
+    max-width: 220px; 
+    height: auto; 
+}
+.subtitle { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #888; margin-top: 10px;}
+
+/* =========================================
+   --- NUEVO BUSCADOR CON "ONDA" ---
+   ========================================= */
+.buscador-container {
+    max-width: 550px; /* Un poco más compacto */
+    margin: 0 auto 50px auto; /* Centrado horizontal y más aire abajo */
+    padding: 0 15px;
+    position: relative; /* Para el icono si agregamos luego */
+}
+
+#input-busqueda {
+    width: 100%;
+    padding: 16px 25px 16px 50px; /* Aire para icono (espacio a la izq) */
+    
+    /* DISEÑO VISUAL */
+    background-color: var(--white);
+    border: 1px solid var(--borde-suave); /* Borde muy sutil */
+    border-radius: 50px; /* Redondeado total "pill" */
+    
+    /* EFECTO DE PROFUNDIDAD */
+    box-shadow: var(--sombra-principal); /* Sombra suave inicial */
+    
+    /* TIPOGRAFÍA Y TEXTO */
     font-family: var(--font-main);
     font-size: 0.95rem;
     background-color: var(--bg-main);
@@ -373,6 +340,32 @@ body {
 @media (max-width: 900px) {
     body { padding: 15px; }
     .contenedor-principal { flex-direction: column; }
-    .grid-container { width: 100%; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-    #seccion-carrito { position: relative; top: 0; width: 100%; max-height: none; margin-top: 20px; padding: 20px;}
+    .grid-container { width: 100%; gap: 15px; }
+    #seccion-carrito { position: relative; top: 0; width: 100%; max-height: none; margin-top: 30px;}
+    .card img { height: 120px; }
 }
+
+/* Items del carrito */
+.carrito-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #DDD;
+    padding-bottom: 12px;
+}
+.item-controles button { padding: 4px 10px; background: #EEE; margin: 0 3px; border-radius: 4px;}
+.btn-eliminar-item { background: none; color: #e74c3c; font-size: 1rem; margin-left: 10px;}
+
+.total-container { text-align: right; font-size: 1.2rem; margin: 20px 0; padding-top: 10px; border-top: 2px solid #EEE;}
+
+/* Inputs formulario */
+.input-group input, .input-group textarea {
+    width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #DDD; border-radius: 6px; font-family: var(--font-main);
+}
+
+.hidden { display: none !important; }
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000;}
+>>>>>>> ac320ae251157db4d8e6509e1265faee42b35966
+.modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px; }
