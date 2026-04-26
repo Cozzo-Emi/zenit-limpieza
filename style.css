@@ -1,371 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* --- Variables y Reset (Mantenemos los mismos básicos) --- */
 :root {
-    --black: #000000;
-    --white: #FFFFFF;
-    --bg-light: #F8F9FA;
-    --dark-blue: #2C3E50; /* Acento Zénit */
-    --text-main: #333333;
-    --font-main: 'Poppins', sans-serif;
-    
-    /* NUEVAS VARIABLES DE ESTILO */
-    --borde-suave: #E0E0E0;
-    --sombra-principal: 0 4px 15px rgba(0,0,0,0.06); /* Sombra suave de relieve */
-    --sombra-foco: 0 6px 20px rgba(44, 62, 80, 0.12); /* Sombra más fuerte al hacer clic */
+    --primary: #1d1d1f;      /* Apple Black */
+    --accent: #0071e3;       /* Apple Blue */
+    --bg: #f5f5f7;           /* Soft Gray */
+    --white: #ffffff;
+    --text-sec: #86868b;     /* Gray text */
+    --radius: 18px;
+    --shadow: 0 8px 30px rgba(0,0,0,0.04);
+    --glass: rgba(255, 255, 255, 0.7);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body { 
-    font-family: var(--font-main); 
-    background-color: var(--white); 
-    color: var(--text-main); 
-    line-height: 1.6;
-    padding: 20px;
+    font-family: 'Inter', sans-serif; 
+    background-color: var(--bg); 
+    color: var(--primary); 
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* --- Header y Logo (Agrandado) --- */
+/* --- Header --- */
 .header-zenit {
     text-align: center;
-    padding: 40px 0 20px 0; /* Ajuste de aire */
-    border-bottom: 1px solid #EEE;
-    margin-bottom: 30px;
+    padding: 60px 20px 40px;
 }
-.main-logo { 
-    max-width: 220px; 
-    height: auto; 
+.main-logo { max-width: 180px; margin-bottom: 15px; }
+.subtitle { 
+    font-size: 0.85rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.15em; 
+    color: var(--text-sec);
+    font-weight: 500;
 }
-.subtitle { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #888; margin-top: 10px;}
 
-/* =========================================
-   --- NUEVO BUSCADOR CON "ONDA" ---
-   ========================================= */
+/* --- Buscador Premium --- */
 .buscador-container {
-    max-width: 550px; /* Un poco más compacto */
-    margin: 0 auto 50px auto; /* Centrado horizontal y más aire abajo */
-    padding: 0 15px;
-    position: relative; /* Para el icono si agregamos luego */
+    max-width: 500px;
+    margin: 0 auto 50px;
+    padding: 0 20px;
 }
 
 #input-busqueda {
     width: 100%;
-    padding: 16px 25px 16px 50px; /* Aire para icono (espacio a la izq) */
-    
-    /* DISEÑO VISUAL */
-    background-color: var(--white);
-    border: 1px solid var(--borde-suave); /* Borde muy sutil */
-    border-radius: 50px; /* Redondeado total "pill" */
-    
-    /* EFECTO DE PROFUNDIDAD */
-    box-shadow: var(--sombra-principal); /* Sombra suave inicial */
-    
-    /* TIPOGRAFÍA Y TEXTO */
-    font-family: var(--font-main);
+    padding: 16px 24px;
+    border-radius: 30px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: var(--white);
     font-size: 1rem;
-    color: var(--text-main);
-    letter-spacing: 0.5px;
-    
-    /* ANIMACIÓN SUAVE */
-    transition: all 0.3s ease; /* Suaviza todos los cambios */
-    outline: none; /* Quita el borde feo por defecto del navegador */
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
 }
 
-/* EFECTOS AL HACER FOCO (CLIC) */
 #input-busqueda:focus {
-    border-color: var(--dark-blue); /* El borde cambia al color acento */
-    background-color: var(--white);
-    box-shadow: var(--sombra-foco); /* La sombra se intensifica (relieve) */
-    transform: translateY(-1px); /* Pequeño levante visual */
+    transform: scale(1.02);
+    border-color: var(--accent);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
 }
 
-/* Estilo del Placeholder (texto de ayuda) */
-#input-busqueda::placeholder {
-    color: #A0A0A0;
-    font-weight: 300;
-}
-
-/* --- Layout Principal --- */
+/* --- Layout --- */
 .contenedor-principal {
     display: flex;
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
-    gap: 30px;
-    align-items: flex-start;
+    gap: 40px;
+    padding: 0 20px 100px;
 }
 
-/* --- Catálogo (Grid) --- */
+/* --- Grid de Productos --- */
 .grid-container {
     flex: 2;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
 }
 
 .card {
     background: var(--white);
-    border: 1px solid #EEE;
-    border-radius: 12px;
-    padding: 15px;
-    text-align: center;
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
+    border: 1px solid rgba(0,0,0,0.02);
 }
 
-.card img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 15px; }
-.card h3 { font-size: 0.95rem; margin-bottom: 5px; color: var(--black); }
-.card .descripcion { font-size: 0.75rem; color: #777; margin-bottom: 10px; flex-grow: 1; }
-.card .precio { font-weight: 600; color: var(--dark-blue); margin-bottom: 15px; }
-
-/* --- Carrito Lateral Sticky (Agrandado) --- */
-#seccion-carrito {
-    flex: 1.5;
-    position: sticky;
-    top: 20px;
-    background-color: var(--bg-light);
-    padding: 25px;
-    border-radius: 15px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 1px solid #E0E0E0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 
-#seccion-carrito h2 { font-weight: 600; margin-bottom: 20px; text-align: center; }
+.card-img-container {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
-/* --- Botones --- */
-button { cursor: pointer; border: none; font-family: var(--font-main); border-radius: 6px; transition: 0.2s; }
-.card button { background: var(--black); color: white; padding: 10px; width: 100%; font-size: 0.85rem; }
-.btn-primario { background: var(--dark-blue); color: white; padding: 12px; width: 100%; margin-top: 10px; font-weight: 600;}
+.card img { 
+    max-height: 100%; 
+    max-width: 100%; 
+    object-fit: contain; 
+}
 
-/* --- Feedback Visual: Toast --- */
-#toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #27ae60;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 50px;
+.card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+.card .descripcion { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 15px; flex-grow: 1; }
+.card .precio { font-size: 1.25rem; font-weight: 700; margin-bottom: 20px; }
+
+.btn-add {
+    background: var(--primary);
+    color: var(--white);
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
     font-size: 0.9rem;
-    z-index: 3000;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
 
-/* --- Mobile Responsive --- */
-@media (max-width: 900px) {
-    .contenedor-principal { flex-direction: column; }
-    .grid-container { width: 100%; gap: 15px; }
-    #seccion-carrito { position: relative; top: 0; width: 100%; max-height: none; margin-top: 30px;}
-    .card img { height: 120px; }
+.btn-add:active { transform: scale(0.96); }
+
+/* --- Carrito Lateral Glassmorphism --- */
+#seccion-carrito {
+    flex: 1;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: var(--radius);
+    position: sticky;
+    top: 30px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border: 1px solid rgba(255,255,255,0.4);
+    box-shadow: var(--shadow);
 }
 
-/* Items del carrito */
 .carrito-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #DDD;
-    padding-bottom: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
-.item-controles button { padding: 4px 10px; background: #EEE; margin: 0 3px; border-radius: 4px;}
-.btn-eliminar-item { background: none; color: #e74c3c; font-size: 1rem; margin-left: 10px;}
 
-.total-container { text-align: right; font-size: 1.2rem; margin: 20px 0; padding-top: 10px; border-top: 2px solid #EEE;}
+.item-nombre { font-weight: 500; font-size: 0.9rem; display: block; }
+.item-precio { font-size: 0.8rem; color: var(--text-sec); }
 
-/* Inputs formulario */
+.item-controles { display: flex; align-items: center; gap: 10px; }
+.item-controles button {
+    width: 28px; height: 28px; border-radius: 50%; border: 1px solid #ddd;
+    background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+.total-container {
+    margin: 25px 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: right;
+    border-top: 2px solid var(--primary);
+    padding-top: 15px;
+}
+
+/* --- Formulario --- */
 .input-group input, .input-group textarea {
-    width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #DDD; border-radius: 6px; font-family: var(--font-main);
+    width: 100%; padding: 14px; margin-bottom: 12px;
+    border: 1px solid rgba(0,0,0,0.1); border-radius: 12px;
+    font-family: inherit; font-size: 0.9rem; background: var(--white);
 }
 
-.hidden { display: none !important; }
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000;}
-=======
-/* --- Variables y Reset (Mantenemos los mismos básicos) --- */
-:root {
-    --black: #000000;
-    --white: #FFFFFF;
-    --bg-light: #F8F9FA;
-    --dark-blue: #2C3E50; /* Acento Zénit */
-    --text-main: #333333;
-    --font-main: 'Poppins', sans-serif;
-    
-    /* NUEVAS VARIABLES DE ESTILO */
-    --borde-suave: #E0E0E0;
-    --sombra-principal: 0 4px 15px rgba(0,0,0,0.06); /* Sombra suave de relieve */
-    --sombra-foco: 0 6px 20px rgba(44, 62, 80, 0.12); /* Sombra más fuerte al hacer clic */
+.btn-primario {
+    background: var(--accent);
+    color: white; padding: 16px; width: 100%; border-radius: 14px;
+    font-weight: 600; font-size: 1rem; border: none; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body { 
-    font-family: var(--font-main); 
-    background-color: var(--white); 
-    color: var(--text-main); 
-    line-height: 1.6;
-    padding: 20px;
-}
-
-/* --- Header y Logo (Agrandado) --- */
-.header-zenit {
-    text-align: center;
-    padding: 40px 0 20px 0; /* Ajuste de aire */
-    border-bottom: 1px solid #EEE;
-    margin-bottom: 30px;
-}
-.main-logo { 
-    max-width: 220px; 
-    height: auto; 
-}
-.subtitle { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #888; margin-top: 10px;}
-
-/* =========================================
-   --- NUEVO BUSCADOR CON "ONDA" ---
-   ========================================= */
-.buscador-container {
-    max-width: 550px; /* Un poco más compacto */
-    margin: 0 auto 50px auto; /* Centrado horizontal y más aire abajo */
-    padding: 0 15px;
-    position: relative; /* Para el icono si agregamos luego */
-}
-
-#input-busqueda {
-    width: 100%;
-    padding: 16px 25px 16px 50px; /* Aire para icono (espacio a la izq) */
-    
-    /* DISEÑO VISUAL */
-    background-color: var(--white);
-    border: 1px solid var(--borde-suave); /* Borde muy sutil */
-    border-radius: 50px; /* Redondeado total "pill" */
-    
-    /* EFECTO DE PROFUNDIDAD */
-    box-shadow: var(--sombra-principal); /* Sombra suave inicial */
-    
-    /* TIPOGRAFÍA Y TEXTO */
-    font-family: var(--font-main);
-    font-size: 0.95rem;
-    background-color: var(--bg-main);
-    transition: all 0.3s ease;
-    outline: none;
-}
-.input-group input:focus, .input-group textarea:focus {
-    border-color: var(--accent-blue);
-    background-color: var(--bg-card);
-    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
-}
-
-/* --- Feedback Visual: Toast --- */
+/* --- Toast --- */
 #toast-notificacion {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(29, 29, 31, 0.9);
-    backdrop-filter: blur(10px);
-    color: white;
-    padding: 14px 28px;
-    border-radius: 30px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    z-index: 3000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.85); color: white; padding: 12px 24px;
+    border-radius: 30px; z-index: 5000; font-weight: 500;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from { bottom: -50px; opacity: 0; }
+    to { bottom: 30px; opacity: 1; }
 }
 
 /* --- Modal --- */
+.modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999;
+}
+.modal-content {
+    background: var(--white); padding: 40px; border-radius: 24px;
+    width: 90%; max-width: 450px; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+}
 .hidden { display: none !important; }
-.modal { 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.4); 
-    backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center; 
-    z-index: 2000;
-}
-.modal-content { 
-    background: var(--bg-card); 
-    padding: 40px; 
-    border-radius: var(--radius-card); 
-    width: 90%; 
-    max-width: 500px; 
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-}
-.modal-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-}
-.modal-buttons {
-    display: flex;
-    gap: 15px;
-    margin-top: 30px;
-}
-.btn-editar {
-    background: var(--bg-main);
-    color: var(--text-primary);
-    padding: 12px 20px;
-    border-radius: var(--radius-btn);
-    flex: 1;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border-color);
-}
-.btn-enviar {
-    background: #34C759; /* Apple Green */
-    color: white;
-    padding: 12px 20px;
-    border-radius: var(--radius-btn);
-    flex: 2;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 4px 14px rgba(52, 199, 89, 0.3);
-}
 
-/* --- Scrollbar --- */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: transparent; 
-}
-::-webkit-scrollbar-thumb {
-    background: #D1D1D6; 
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #AEAEB2; 
-}
-
-/* --- Mobile Responsive --- */
+/* --- Mobile --- */
 @media (max-width: 900px) {
-    body { padding: 15px; }
     .contenedor-principal { flex-direction: column; }
-    .grid-container { width: 100%; gap: 15px; }
-    #seccion-carrito { position: relative; top: 0; width: 100%; max-height: none; margin-top: 30px;}
-    .card img { height: 120px; }
+    .header-zenit { padding: 40px 20px; }
+    #seccion-carrito { position: static; max-height: none; }
 }
-
-/* Items del carrito */
-.carrito-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #DDD;
-    padding-bottom: 12px;
-}
-.item-controles button { padding: 4px 10px; background: #EEE; margin: 0 3px; border-radius: 4px;}
-.btn-eliminar-item { background: none; color: #e74c3c; font-size: 1rem; margin-left: 10px;}
-
-.total-container { text-align: right; font-size: 1.2rem; margin: 20px 0; padding-top: 10px; border-top: 2px solid #EEE;}
-
-/* Inputs formulario */
-.input-group input, .input-group textarea {
-    width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #DDD; border-radius: 6px; font-family: var(--font-main);
-}
-
-.hidden { display: none !important; }
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000;}
->>>>>>> ac320ae251157db4d8e6509e1265faee42b35966
-.modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px; }

@@ -1,7 +1,7 @@
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrz0jwtU-gpFJWblZ-6i8wPGhZFgucHFct6rMvEVi45iKbQTEUKAccXAOLb9KfQmu4G7cDE-8Ob95c/pub?output=csv";
 const WHATSAPP_NUMBER = "5491150279546"; 
 
-let productos = []; // Array original completo
+let productos = []; 
 let carrito = JSON.parse(localStorage.getItem('carritoZenit')) || []; 
 
 async function cargarProductos() {
@@ -14,9 +14,7 @@ async function cargarProductos() {
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function(results) {
-                // Guardamos todos los productos
                 productos = results.data.filter(p => p.Producto);
-                // Renderizamos la lista completa inicialmente
                 renderizarCatalogo(productos);
                 actualizarCarritoUI();
             }
@@ -27,64 +25,55 @@ async function cargarProductos() {
     }
 }
 
-// --- FUNCIÓN DE BÚSQUEDA ---
 function filtrarProductos() {
     const termino = document.getElementById('input-busqueda').value.toLowerCase();
-    
-    // Filtramos el array original
     const productosFiltrados = productos.filter(prod => {
-        // Obtenemos los campos y manejamos posibles nulos en el Excel
         const nombre = (prod.Producto || "").toLowerCase();
-        // Buscamos DESCRIPCIÓN con tilde (como está en tu Sheet) o sin tilde por las dudas
         const desc = (prod.DESCRIPCIÓN || prod.Descripcion || "").toLowerCase();
         const cat = (prod.Categoria || "").toLowerCase();
-
-        // Retorna true si el término coincide en nombre, descripción o categoría
         return nombre.includes(termino) || desc.includes(termino) || cat.includes(termino);
     });
-
-    // Renderizamos solo los filtrados
     renderizarCatalogo(productosFiltrados);
 }
 
-// Renderizar la lista de productos
 function renderizarCatalogo(listaDeProductos) {
     const catalogo = document.getElementById('catalogo');
     if (!catalogo) return;
     catalogo.innerHTML = "";
 
     if (listaDeProductos.length === 0) {
-        catalogo.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 20px;'>No se encontraron productos que coincidan.</p>";
+        catalogo.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 40px; color: #86868b;'>No encontramos lo que buscas.</p>";
         return;
     }
 
     listaDeProductos.forEach(prod => {
-        const nombre = prod.Producto || "Sin nombre";
+        const nombre = prod.Producto || "Producto Zénit";
         const precio = prod.PrecioVenta || 0;
-        // Manejo flexible de DESCRIPCIÓN (mayúsculas y tilde)
         let desc = prod.DESCRIPCIÓN || prod.Descripcion || "";
-        if (desc.length > 50) desc = desc.substring(0, 47) + "...";
+        if (desc.length > 55) desc = desc.substring(0, 52) + "...";
         
-        const img = prod.Imagen || 'https://via.placeholder.com/150?text=Zenit';
-        const id = prod.ID || "sin-id";
+        const img = prod.Imagen || 'https://via.placeholder.com/300?text=Zenit';
+        const id = prod.ID || "id-" + Math.random();
 
         catalogo.innerHTML += `
-            <div class="card" id="card-${id}">
-                <img src="${img}" alt="${nombre}" onerror="this.src='https://via.placeholder.com/150?text=Zenit'">
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="${img}" alt="${nombre}" onerror="this.src='https://via.placeholder.com/300?text=Zenit'">
+                </div>
                 <h3>${nombre}</h3>
                 <p class="descripcion">${desc}</p>
                 <p class="precio">$${Number(precio).toLocaleString('es-AR')}</p>
-                <button onclick="agregarAlCarrito('${id}')">Agregar</button>
+                <button class="btn-add" onclick="agregarAlCarrito('${id}')">Agregar al pedido</button>
             </div>
         `;
     });
 }
 
 function agregarAlCarrito(id) {
-    const prod = productos.find(p => p.ID === id);
+    const prod = productos.find(p => p.ID == id);
     if (!prod) return;
 
-    const itemExistente = carrito.find(item => item.ID === id);
+    const itemExistente = carrito.find(item => item.ID == id);
     if (itemExistente) {
         itemExistente.cantidad++;
     } else {
@@ -97,8 +86,7 @@ function agregarAlCarrito(id) {
         });
     }
 
-    // Feedback visual
-    mostrarToast(`+1 ${prod.Producto}`);
+    mostrarToast(`Añadido: ${prod.Producto}`);
     guardarCarrito();
     actualizarCarritoUI();
 }
@@ -113,10 +101,9 @@ function mostrarToast(mensaje) {
     document.body.appendChild(toast);
 
     setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transition = '0.5s';
+        toast.classList.add('hide');
         setTimeout(() => toast.remove(), 500);
-    }, 2000);
+    }, 2500);
 }
 
 function actualizarCarritoUI() {
@@ -130,16 +117,15 @@ function actualizarCarritoUI() {
         total += subtotal;
         lista.innerHTML += `
             <div class="carrito-item">
-                <img src="${item.imagen || 'https://via.placeholder.com/150?text=Zenit'}" class="carrito-img-min" alt="${item.nombre}">
                 <div class="info-item">
-                    <strong>${item.nombre}</strong><br>
-                    <small>$${item.precio.toLocaleString('es-AR')} c/u</small>
+                    <span class="item-nombre">${item.nombre}</span>
+                    <span class="item-precio">$${item.precio.toLocaleString('es-AR')}</span>
                 </div>
                 <div class="item-controles">
                     <button onclick="modificarCantidad(${index}, -1)">-</button>
                     <span>${item.cantidad}</span>
                     <button onclick="modificarCantidad(${index}, 1)">+</button>
-                    <button onclick="eliminarDelCarrito(${index})" class="btn-eliminar-item">❌</button>
+                    <button onclick="eliminarDelCarrito(${index})" class="btn-eliminar-item">✕</button>
                 </div>
             </div>
         `;
@@ -168,7 +154,7 @@ function guardarCarrito() {
 }
 
 function abrirRevision() {
-    if (carrito.length === 0) return alert("El carrito está vacío.");
+    if (carrito.length === 0) return mostrarToast("El carrito está vacío");
     const form = document.getElementById('form-datos');
     if (!form.checkValidity()) { form.reportValidity(); return; }
 
@@ -176,10 +162,15 @@ function abrirRevision() {
     const total = document.getElementById('precio-total').innerText;
     
     resumen.innerHTML = `
-        <ul style="list-style:none; padding:0; font-size:0.9rem;">
-            ${carrito.map(i => `<li>• ${i.cantidad}x ${i.nombre} ($${(i.precio * i.cantidad).toLocaleString('es-AR')})</li>`).join('')}
-        </ul>
-        <hr><p><strong>Total: $${total}</strong></p>
+        <div class="resumen-lista">
+            ${carrito.map(i => `
+                <div class="resumen-row">
+                    <span>${i.cantidad}x ${i.nombre}</span>
+                    <span>$${(i.precio * i.cantidad).toLocaleString('es-AR')}</span>
+                </div>
+            `).join('')}
+            <div class="resumen-total">Total: $${total}</div>
+        </div>
     `;
     document.getElementById('modal-revision').classList.remove('hidden');
 }
@@ -193,75 +184,42 @@ function enviarWhatsApp() {
     const notas = document.getElementById('notas').value;
     const total = document.getElementById('precio-total').innerText;
 
-    let mensaje = `🛒 *NUEVO PEDIDO - ZENIT*\n\n👤 *Cliente:* ${nombre}\n📞 *Tel:* ${telefono}\n📍 *Entrega:* ${direccion}\n`;
+    let mensaje = `🛒 *PEDIDO ZÉNIT*\n\n👤 *Cliente:* ${nombre}\n📞 *Tel:* ${telefono}\n📍 *Entrega:* ${direccion}\n`;
     if (notas) mensaje += `📝 *Notas:* ${notas}\n`;
-    mensaje += `\n--------------------------\n`;
+    mensaje += `\n*PRODUCTOS:*\n`;
     carrito.forEach(i => { mensaje += `• ${i.cantidad}x ${i.nombre} ($${(i.precio * i.cantidad).toLocaleString('es-AR')})\n`; });
-    mensaje += `--------------------------\n💰 *TOTAL: $${total}*`;
+    mensaje += `\n💰 *TOTAL: $${total}*`;
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
-// --- NUEVA FUNCIÓN: GENERAR PDF ---
 function descargarPDFPrecios() {
-    // 1. Verificamos que haya productos cargados
-    if (productos.length === 0) {
-        alert("Por favor, esperá a que carguen los productos antes de descargar el PDF.");
-        return;
-    }
-
-    // 2. Inicializamos jsPDF
+    if (productos.length === 0) return;
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // 3. Estilos del encabezado del documento
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(18);
-    doc.text("Catálogo de Precios - ZÉNIT", 14, 22);
+    doc.setFontSize(20);
+    doc.text("ZÉNIT - LISTA DE PRECIOS", 14, 22);
     
+    doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    doc.setTextColor(100); // Color gris oscuro
-    
-    // Agregamos la fecha de hoy para que se sepa cuándo se generó
-    const fechaHoy = new Date().toLocaleDateString('es-AR');
-    doc.text(`Lista de precios actualizada al: ${fechaHoy}`, 14, 30);
+    doc.text(`Generado el: ${new Date().toLocaleDateString('es-AR')}`, 14, 30);
 
-    // 4. Preparamos los datos para la tabla
-    // Filtramos para asegurarnos de no meter filas vacías del Excel
     const datosTabla = productos
         .filter(p => p.Producto && p.PrecioVenta)
-        .map(p => {
-            const nombre = p.Producto;
-            const desc = p.DESCRIPCIÓN || p.Descripcion || "-";
-            const precioFormateado = `$${Number(p.PrecioVenta).toLocaleString('es-AR')}`;
-            
-            // Retornamos un array con las 3 columnas por cada producto
-            return [nombre, desc, precioFormateado];
-        });
+        .map(p => [p.Producto, p.DESCRIPCIÓN || "-", `$${Number(p.PrecioVenta).toLocaleString('es-AR')}`]);
 
-    // 5. Generamos la tabla con autoTable
     doc.autoTable({
-        startY: 35, // Empezamos a dibujar debajo del título
-        head: [['Producto', 'Presentación / Descripción', 'Precio Final']],
+        startY: 35,
+        head: [['Producto', 'Descripción', 'Precio']],
         body: datosTabla,
-        theme: 'striped', // Filas cebradas (gris y blanco)
-        headStyles: { 
-            fillColor: [44, 62, 80], // Color --dark-blue de tu CSS
-            textColor: [255, 255, 255]
-        },
-        styles: { 
-            fontSize: 9, // Letra un poco más chica para que entre bien
-            cellPadding: 4
-        },
-        columnStyles: {
-            // Alineamos la columna 2 (el precio) a la derecha y en negrita
-            2: { halign: 'right', fontStyle: 'bold', cellWidth: 35 } 
-        }
+        theme: 'striped',
+        headStyles: { fillColor: [29, 29, 31] },
+        styles: { fontSize: 9 }
     });
 
-    // 6. Descargamos el archivo directamente en la compu/celular del usuario
-    doc.save("Lista_Precios_Zenit.pdf");
+    doc.save("Zénit_Precios.pdf");
 }
 
 document.addEventListener('DOMContentLoaded', cargarProductos);
